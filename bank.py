@@ -10,7 +10,7 @@ class Accounts:
 	def info(self):
 		print(f"Account created Successfully - \n\n• Account Number : {self.an}\n• Name : {self.name}\n• DOB : {self.DOB}\n• Balance : {self.balance}\n• Unique code : {self.code}\n")
 		
-database = []
+count = 0
 
 print("\n---------Welcome to Digital portal of ABC bank--------\n")
 	
@@ -31,18 +31,26 @@ if choose == 1:
 		
 		if len(DOB.strip()) == 10 and len(str(adhar)) == 12 and len(str(pin)) == 4 and len(str(phone)) == 10:
 			
-			database.append("ac")
+			with open("new.txt","r") as f:
+				read = f.read().splitlines()
+				
+			for i in range(len(read)):
+				if read[i][::-1].endswith("cA"):
+					count += 1
+					
+				else:
+					continue
 			
-			ac1 = Accounts(name = name , DOB = DOB , PIN = pin , balance = 0 , an = f"M12S959{len(database)}", code = f"X8Y90{len(database)}")
+			ac1 = Accounts(name = name , DOB = DOB , PIN = pin , balance = 0 , an = f"M12S959{count+1}", code = f"X8Y90{count+1}")
 			
 			with open("new.txt", "a") as f:
-				f.write(f"Account {len(database)} - \n")
+				f.write(f"Account {count+1} - \n")
 				f.write(f"• Name : {ac1.name}\n")
 				f.write(f"• DOB : {ac1.DOB}\n")
 				f.write(f"• Account number : {ac1.an}\n")
 				f.write(f"• PIN : {ac1.PIN}\n")
 				f.write(f"• Balance : {ac1.balance}\n")
-				f.write(f"• Unique account code : {ac1.code}\n")
+				f.write(f"• Unique account code : {ac1.code}\n\n")
 			
 			print("\nChecking Credentials.....Done\nChecking uniqueness of PIN.....Done\nVerifying Phone mumber.....Done\n\nCreating account....")
 			
@@ -50,7 +58,10 @@ if choose == 1:
 			
 			break
 		else:
-			print(f"Invalid Credentials, Try again ({3-i} attemps left)")
+			if i == 3:
+				print("Maximum request per session reached  ! , Restart the program..\n")
+			else:
+				print(f"Invalid Credentials, Try again ({3-i} attemps left)")
 		
 elif choose == 4:
 	fetch = input("Enter your Account unique id : ")
@@ -71,3 +82,6 @@ elif choose == 4:
 				
 		else:
 			continue
+			
+elif choose == 6:
+	print("Thanks for visiting ABC Bank !!...")
