@@ -14,7 +14,7 @@ count = 0
 
 print("\n---------Welcome to Digital portal of ABC bank--------\n")
 	
-print("1) Create Account\n2) Withdraw amount\n3) Check balance\n4) Get account details\n5) Transfer Money to other's Account\n6) Exit")
+print("1) Create Account\n2) Withdraw/Deposit amount\n3) Check balance\n4) Get account details\n5) Transfer Money to other's Account\n6) Exit")
 	
 
 choose = int(input("\nChoose the serial number of your required Service :   "))
@@ -85,3 +85,76 @@ elif choose == 4:
 			
 elif choose == 6:
 	print("Thanks for visiting ABC Bank !!...")
+
+#creation of Deposit and Withdraw feature
+
+elif choose == 2:
+  id = input("Enter your Account's unique ID  :  ")
+  with open("new.txt","r") as f:
+    data = f.read().splitlines()
+  for i in range(len(data)):
+    #checking for ID in account file
+    if data[i] == f"• Unique account code : {id}":
+      
+      #asking for Withdraw or deposit
+      
+      print("\nA) Withdraw money\nB) Deposit money\n")
+      select = input("\nEnter \"A\" or \"B\" :  ")
+      
+      # Withdrawing money
+      if select.lower() == "a":
+        
+        #Taking PIN
+        pas = int(input("Enter your PIN  :  "))
+        if data[i-2] == f"• PIN : {pas}":
+          with open("new.txt","r") as f:
+            info = f.read()
+          
+          #Asking amount to withdraw 
+          wit = float("Enter Amout to withdraw  :  ")
+          
+          if float(data[i-1][12:]) >= wit:
+            withdraw = info.replace(data[i-1][12:],str(float(data[i-1][12:]) - wit))
+            #Updating Balance
+            with open("new.txt","w") as f:
+              f.write(withdraw)
+            break
+          
+          else:
+            print("Insufficient Balance !!")
+            break
+        else:
+          print("Incorrect PIN !")
+          break
+
+      # Depositing amount
+      elif select.lower() == "b":
+                
+        #Taking PIN
+        pas = int(input("Enter your PIN  :  "))
+        if data[i-2] == f"• PIN : {pas}":
+          with open("new.txt","r") as f:
+            info = f.read()
+          
+          #Asking amount to Deposit
+          dep = float("Enter Amout to Deposit  :  ")
+          
+          deposit = info.replace(data[i-1][12:],str(float(data[i-1][12:]) + dep))
+            
+            #Updating Balance
+          with open("new.txt","w") as f:
+            f.write(deposit)
+          break
+        else:
+          print("Incorrect PIN !")
+          break
+      else:
+          print("ERROR - Invalid Selection !!")
+          break
+
+    #Account not found
+    else:
+      if i != len(data)-1:
+        continue
+      else:
+        print("ERROR - Account not found")
