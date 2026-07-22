@@ -12,9 +12,12 @@ class Accounts:
 		
 count = 0
 
+with open("new.txt","w") as f:
+	f.write("")
+
 print("\n---------Welcome to Digital portal of ABC bank--------\n")
 	
-print("1) Create Account\n2) Withdraw/Deposit amount\n3) Check balance\n4) Get account details\n5) Transfer Money to other's Account\n6) Exit")
+print("1) Create Account\n2) Withdraw amount\n3) Check balance\n4) Get account details\n5) Transfer Money to other's Account\n6) Exit")
 	
 
 choose = int(input("\nChoose the serial number of your required Service :   "))
@@ -49,7 +52,7 @@ if choose == 1:
 				f.write(f"• DOB : {ac1.DOB}\n")
 				f.write(f"• Account number : {ac1.an}\n")
 				f.write(f"• PIN : {ac1.PIN}\n")
-				f.write(f"• Balance : {ac1.balance}\n")
+				f.write(f"• Balance : ₹{ac1.balance}\n")
 				f.write(f"• Unique account code : {ac1.code}\n\n")
 			
 			print("\nChecking Credentials.....Done\nChecking uniqueness of PIN.....Done\nVerifying Phone mumber.....Done\n\nCreating account....")
@@ -111,7 +114,7 @@ elif choose == 2:
             info = f.read()
           
           #Asking amount to withdraw 
-          wit = float("Enter Amout to withdraw  :  ")
+          wit = float(input("Enter Amout to withdraw  :  "))
           
           if float(data[i-1][12:]) >= wit:
             withdraw = info.replace(data[i-1][12:],str(float(data[i-1][12:]) - wit))
@@ -137,13 +140,15 @@ elif choose == 2:
             info = f.read()
           
           #Asking amount to Deposit
-          dep = float("Enter Amout to Deposit  :  ")
+          dep = float(input("Enter Amout to Deposit  :  "))
           
-          deposit = info.replace(data[i-1][12:],str(float(data[i-1][12:]) + dep))
+          deposit = info.replace(data[i-1][12:],str(float(data[i-1][13:]) + dep))
             
             #Updating Balance
           with open("new.txt","w") as f:
             f.write(deposit)
+            
+          print(f"Amount deposited successfully !!")
           break
         else:
           print("Incorrect PIN !")
