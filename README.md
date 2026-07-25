@@ -1,47 +1,30 @@
 # ABC Bank — Digital Portal (CLI)
 
-A command-line banking prototype written in Python. Users are prompted through a menu to create an account or look up account details. Data is persisted in a local text file (`new.txt`) rather than a database.
+A command-line banking system written in Python. Users interact through a text menu to create an account, manage funds, and view account details. All data is stored locally in a plain-text file (`new.txt`) — no database or external dependencies required.
 
-## What actually works
+## Features
 
-| Menu option | Status |
-|---|---|
-| 1. Create Account | Implemented |
-| 2. Withdraw amount | Listed  in menu  , Will be added soon
-| 3. Check balance |  Listed in menu,  Will be added soon|
-| 4. Get account details |  Implemented |
-| 5. Transfer Money |  Listed in menu,  Will be added soon |
-| 6. Exit | implemented |
+| # | Feature | Status |
+|---|---|---|
+| 1 | Create Account |  Implemented |
+| 2 | Deposit / Withdraw |  Implemented |
+| 3 | Check Balance |  Implemented |
+| 4 | Get Account Details |  Implemented |
+| 5 | Transfer Money |  Implemented |
+| 6 | Exit | Implemented |
 
 ## How it works
 
-**Create Account (`1`)**
-- Collects name, DOB, Aadhar number, 4-digit PIN, and phone number.
-- Validates only the *length* of each field (DOB = 10 chars, Aadhar = 12 digits, PIN = 4 digits, phone = 10 digits) — not the actual format or content.(But will be done soon)
-- Gives 3 attempts per session before locking out.
-- Generates an account number and "unique code" by counting existing entries in `new.txt` (via a reversed-string check for lines starting with `"Ac"`), then appends the new record to that file in plain text.
+**Create Account**
+Collects name, date of birth, address, phone number, and a 4-digit PIN. Validates that the name contains only letters/spaces, the DOB matches `dd mm yyyy`, the phone number is exactly 10 digits, and the PIN is exactly 4 digits. On success, generates an account number and a unique code, then appends the record to `new.txt`.
 
-**Get Account Details (`4`)**
-- Asks for the account's unique code, scans `new.txt` for a matching line, then asks for the PIN.
-- If the PIN matches, prints the account block by indexing fixed line offsets (`-5, -4, -3, -1, 0`) relative to the matched line.
-
-## Data storage format (`new.txt`)
-
-```
-Account 1 - 
-• Name : John Doe
-• DOB : 01 01 2000
-• Account number : M12S9591
-• PIN : 1234
-• Balance : 0
-• Unique account code : X8Y901
-
-```
+**Deposit / Withdraw, Check Balance, Get Details, Transfer**
+Each of these asks for your unique code and PIN, verifies them against `new.txt`, then reads or updates your balance in place. Transfers also verify that the receiver's account number exists before moving funds.
 
 ## Requirements
 
 - Python 3
-- No external dependencies
+- No external dependencies (standard library only)
 
 ## Running it
 
@@ -49,16 +32,35 @@ Account 1 -
 python bank.py
 ```
 
-`new.txt` is created automatically the first time an account is created **if it already exists** — see Known Issues below.
+`new.txt` must exist in the same directory (it can be empty) before you create your first account — it's included in this repo already set up.
 
-## Known issues
+## Data storage format (`new.txt`)
 
-- **First run crashes.** Account creation opens `new.txt` in read mode before it's ever been created, so choosing option `1` on a fresh setup throws `FileNotFoundError`. The file needs to exist (even empty) beforehand.
-- **PINs, Aadhar numbers, and phone numbers are stored in plain text** with no hashing or encryption.
-- **Leading zeros are silently dropped.** PIN, Aadhar, and phone are cast to `int`, so a PIN like `0123` becomes `123` and fails length validation.(Will be fixed soon)
-- **No `try/except` around input parsing.** Entering non-numeric text for Aadhar/PIN/phone crashes the program.
-- **Account lookup is position-dependent**, not key-based — it assumes every record is written in the exact same 6-line order forever. Any change to the write format breaks all existing lookups.
-- **Menu advertises three features (withdraw, balance check, transfer) that don't exist yet.**
-- **No amount/balance logic at all** — `balance` is hardcoded to `0` at creation and never updated anywhere.
+Each account is stored as a plain-text block:
 
-#**All These things will be fixed in next Commit and new features will also be added , (about 2-3 days later)
+```
+Account Number : 10000001
+
+Name : John Doe
+DOB : 01 01 2000
+Balance(₹) : 0
+Unique code : X8Y91
+Phone Number : 9876543210
+Address : 123 Main Street
+PIN : 1234
+
+```
+
+## Known limitations
+
+- **No encryption.** PINs, phone numbers, and addresses are stored in plain text. This is a learning project, not a production-ready system.
+- **Position-dependent lookups.** Records are read by counting fixed line offsets from a matched line, so every account must follow the exact same format — a stray blank line or reordered field will break lookups.
+- **Limited input safety.** Menu selection and money amounts aren't wrapped in error handling, so non-numeric input will crash the program.
+
+## Concepts practiced
+
+File handling, exception handling, string manipulation, data entry and updates, input validation, conditionals, loops, and functions.
+
+## Contributors
+
+Mohit Singh & Dev Chauhan
