@@ -228,8 +228,7 @@ elif choose == 5:
                               if code == int(read[i+3].split(" ")[2]): #checking PIN
 
                                     print("\nChecking unique code...\nChecking PIN...\n\nCredentials verified.\n\nFetching your account details...\n")
-
-                                    sender_account_number = read[i-4].split(' ')[2]
+								  
                                     sender_balance = int(read[i-1].split(' ')[2])
 
                                     receiver_account_number = input("\nEnter the receiver's account number : ")
