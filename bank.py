@@ -167,7 +167,7 @@ elif choose == 4:
                               if code == int(read[i+3].split(" ")[2]): #checking PIN
                                     print("\nChecking unique code...\nChecking PIN...\n\nCredentials verified.\n\nFetching your account details...\n")
 
-                                    print(f"\nAccount Number : {read[i-4].split(' ')[3]}\nName : {read[i-3].split(' ')[2]}\nDOB : {read[i-2].split(' ')[2]}\nBalance(₹) : {read[i-1].split(' ')[2]}\nUnique code : {read[i].split(' ')[2]}\nPhone Number : {read[i+1].split(' ')[3]}\nAddress : {read[i+2].split(' ')[2]}\nPIN : {read[i+3].split(' ')[2]}\n")
+                                    print(f"{read[i-4]}\n{read[i-3]}\n{read[i-2]}\n{read[i-1]}\n{read[i]}\n{read[i+1]}\n{read[i+2]}\n{read[i+3]}\n")
 
                                     break
                               else:
