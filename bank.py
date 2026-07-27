@@ -252,8 +252,8 @@ elif choose == 5:
                                                       print("\nChecking unique code...\nChecking PIN...\n\nCredentials verified.\n\nProcessing your transfer...\n\nTransfer successful!\n")
 
 
-                                                      break
-												break
+                                                    break
+										break
                                                 else:
                                                       if j == len(read) - 1:
                                                             print("\nInvalid receiver's account number. Please enter a valid account number.\n")
